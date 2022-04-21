@@ -1,0 +1,430 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2.0.5",
+    "title": "Digital Wallet"
+  },
+  "host": "localhost:8181",
+  "paths": {
+    "/api/v1/cardbalance": {
+      "post": {
+        "tags": [
+          "Card Balance"
+        ],
+        "summary": "Retrieve the Card Balance",
+        "operationId": "getCardbalanceUsingPost",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "X-TENANT",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "default": "Caesars"
+          },
+          {
+            "name": "x-correlation-id",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "request",
+            "description": "request",
+            "required": true,
+            "default": {
+             
+          }
+          
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Card Balance",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "600": {
+            "description": "Bad Request"
+          },
+          "601": {
+            "description": "Unauthorized"
+          },
+          "603": {
+            "description": "Forbidden"
+          },
+          "604": {
+            "description": "Request path not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/enroll": {
+      "post": {
+        "tags": [
+          "Enroll"
+        ],
+        "summary": "Retrieve all the Enrollements",
+        "operationId": "getAllEnrollmentsUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "X-TENANT",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "default": "Caesars"
+          },
+          {
+            "name": "x-correlation-id",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "request",
+            "description": "request",
+            "required": true,
+            "default": {
+              "FirstName": "FName1",
+              "LastName": "LName1",
+              "PhoneNumber": "1112223339",
+              "Email": "s@s.com",
+              "Address": "70705 Richman Avenue",
+              "City": "Dulles",
+              "State": "GA",
+              "PostalCode": "30318",
+              "Country": "US",
+              "MerchantTransactionId": "083021042905039",
+              "ReturnURL": "https://sightlinepayments.com",
+              "MerchantName": "TabName",
+              "IdType": "",
+              "IdValue": "",
+              "TransactionAmount": "",
+              "TransactionType": "",
+              "DOB": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Enrollments",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "600": {
+            "description": "Bad Request"
+          },
+          "601": {
+            "description": "Unauthorized"
+          },
+          "603": {
+            "description": "Forbidden"
+          },
+          "604": {
+            "description": "Request path not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/transactions": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Retrieve all the transactions",
+        "operationId": "getAlltransactionsUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "X-TENANT",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "default": "Caesars"
+          },
+          {
+            "name": "x-correlation-id",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved transactions",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "600": {
+            "description": "Bad Request"
+          },
+          "601": {
+            "description": "Unauthorized"
+          },
+          "603": {
+            "description": "Forbidden"
+          },
+          "604": {
+            "description": "Request path not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/benefits": {
+      "get": {
+        "tags": [
+          "Benefits"
+        ],
+        "summary": "Retrieve all the benefits",
+        "operationId": "getAllbenefitsUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "X-TENANT",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "default": "Caesars"
+          },
+          {
+            "name": "x-correlation-id",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved benefits",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "600": {
+            "description": "Bad Request"
+          },
+          "601": {
+            "description": "Unauthorized"
+          },
+          "603": {
+            "description": "Forbidden"
+          },
+          "604": {
+            "description": "Request path not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/rewardcards": {
+      "get": {
+        "tags": [
+          "Rewardcards"
+        ],
+        "summary": "Retrieve all the rewardcards",
+        "operationId": "getAllrewardcardsUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "X-TENANT",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "default": "Caesars"
+          },
+          {
+            "name": "x-correlation-id",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved rewardcards",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "600": {
+            "description": "Bad Request"
+          },
+          "601": {
+            "description": "Unauthorized"
+          },
+          "603": {
+            "description": "Forbidden"
+          },
+          "604": {
+            "description": "Request path not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/tiercredit": {
+      "get": {
+        "tags": [
+          "Tiercredit"
+        ],
+        "summary": "Retrieve all the tiercredit",
+        "operationId": "getAlltiercreditUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "X-TENANT",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "default": "Caesars"
+          },
+          {
+            "name": "x-correlation-id",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved tiercredit",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "600": {
+            "description": "Bad Request"
+          },
+          "601": {
+            "description": "Unauthorized"
+          },
+          "603": {
+            "description": "Forbidden"
+          },
+          "604": {
+            "description": "Request path not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/getCaesarsWalletId": {
+      "get": {
+        "tags": [
+          "CaesarsWalletId"
+        ],
+        "summary": "Retrieve all the Caesar's Wallet Id",
+        "operationId": "getCaesarsWalletIdGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "X-TENANT",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "default": "Caesars"
+          },
+          {
+            "name": "x-correlation-id",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Caesar's Wallet Id",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "600": {
+            "description": "Bad Request"
+          },
+          "601": {
+            "description": "Unauthorized"
+          },
+          "603": {
+            "description": "Forbidden"
+          },
+          "604": {
+            "description": "Request path not found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v1/redeem": {
+      "get": {
+        "tags": [
+          "Redeem"
+        ],
+        "summary": "Retrieve all the Redeem Content",
+        "operationId": "getRedeemContentGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "X-TENANT",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "default": "Caesars"
+          },
+          {
+            "name": "x-correlation-id",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved Redeem Content",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "600": {
+            "description": "Bad Request"
+          },
+          "601": {
+            "description": "Unauthorized"
+          },
+          "603": {
+            "description": "Forbidden"
+          },
+          "604": {
+            "description": "Request path not found"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  }
+}
+
