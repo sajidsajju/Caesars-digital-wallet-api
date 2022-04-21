@@ -1,0 +1,84 @@
+pipeline {
+  agent any
+    
+  tools {nodejs "node"}
+  
+	parameters {
+
+		string(
+			name: 'GIT_REPOSITORY_BRANCH',
+			defaultValue: 'master',	
+            description: 'GIT Branch'
+		)
+		string(
+			name: 'GIT_REPOSITORY_URL',
+			defaultValue: 'git@gitlab.com:digital-cloud-platform-ecom-nodejs/dcp-ecom-nodejs-common.git',	
+            description: 'GIT Repository URL'
+		)
+		string( 
+			name: 'DEPLOYMENT_STAGE',
+			defaultValue: 'dev',	
+            description: 'Deployment stage'
+		)
+	}
+	stages {
+	    stage('Delete the contents of the workspace before building, ensuring a fully fresh workspace'){
+	        steps{
+                deleteDir() /* clean up our workspace */
+	        }
+	    }
+        stage('Clone Repository') {
+            steps {
+                git branch: "$GIT_REPOSITORY_BRANCH",
+                credentialsId: 'Gitlab-Credential',
+                url: "$GIT_REPOSITORY_URL"
+            }
+        }
+        stage('Scan for console.log'){
+            steps {
+               findText(textFinders: [textFinder(regexp: 'console.log', fileSet: 'common/commoncode/**/*.js, lambda/*.js, model/*.js, routes/*.js, service/*.js, repository/*.js, validators/*.js', buildResult: 'FAILURE')])
+            }
+        }
+         stage('Installing node_modules'){
+            steps {
+             sh '''
+                ls -lat
+                echo 'Installing node_modules of Common package.json'
+                npm install
+                echo 'Installing node_modules of common/commoncode package.json'
+                cd commoncode
+                npm install
+                cd ..
+                echo 'Installing node_modules of common/commonlib package.json'
+                cd commonlib
+                npm install
+                cd ..
+                pwd
+             '''
+            }
+         }
+         stage('Install Serverless Framework'){
+            steps {
+             sh '''
+                npm install -g serverless
+                sls --version
+             '''
+            }
+        }
+        stage('Deploying package to stage dev'){
+            steps {
+             sh '''
+                sls deploy --stage "$DEPLOYMENT_STAGE"
+             '''
+            }
+        }
+  }
+post {
+    failure {
+          updateGitlabCommitStatus name: 'build', state: 'failed'
+    }
+    success {
+          updateGitlabCommitStatus name: 'build', state: 'success'
+    }
+}
+}

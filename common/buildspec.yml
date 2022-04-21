@@ -1,0 +1,96 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - npm install --silent --no-progress -g npm
+      - npm install --silent --no-progress -g serverless
+      - cd commonlib
+      - npm install --silent --no-progress
+      - cd ..
+      - cd commoncode/client/axios
+      - npm install --silent --no-progress
+      - cd ..
+      - cd client
+      - npm install --silent --no-progress
+      - cd ..
+      - cd ..
+      - npm install --silent --no-progress client/axios
+      - npm install --silent --no-progress client/client
+      - cd config
+      - npm install --silent --no-progress
+      - cd ..
+      - npm install --silent --no-progress config
+      - cd constants
+      - npm install --silent --no-progress
+      - cd ..
+      - npm install --silent --no-progress constants
+      - cd db/mongoose
+      - npm install --silent --no-progress
+      - cd ..
+      - cd repository
+      - npm install --silent --no-progress
+      - cd ..
+      - cd ..
+      - npm install --silent --no-progress db/mongoose
+      - npm install --silent --no-progress db/repository
+      - cd errors
+      - npm install --silent --no-progress
+      - cd ..
+      - npm install --silent --no-progress errors
+      - cd express/express
+      - npm install --silent --no-progress
+      - cd ..
+      - cd loader
+      - npm install --silent --no-progress
+      - cd ..
+      - cd routes
+      - npm install --silent --no-progress
+      - cd ..
+      - cd ..
+      - npm install --silent --no-progress express/express
+      - npm install --silent --no-progress express/loader
+      - npm install --silent --no-progress express/routes
+      - cd lambda
+      - npm install --silent --no-progress
+      - cd ..
+      - npm install --silent --no-progress lambda
+      - cd logger
+      - npm install --silent --no-progress
+      - cd ..
+      - npm install --silent --no-progress logger
+      - cd messaging/messaging
+      - npm install --silent --no-progress
+      - cd ..
+      - cd kafka
+      - npm install --silent --no-progress
+      - cd ..
+      - cd ..
+      - npm install --silent --no-progress messaging/messaging
+      - npm install --silent --no-progress messaging/kafka
+      - cd model
+      - npm install --silent --no-progress
+      - cd ..
+      - npm install --silent --no-progress model
+      - cd responses
+      - npm install --silent --no-progress
+      - cd ..
+      - npm install --silent --no-progress responses
+      - cd validator
+      - npm install --silent --no-progress
+      - cd ..
+      - npm install --silent --no-progress validator
+      - npm install --silent --no-progress
+      - cd ..
+      - npm install --silent --no-progress
+  build:
+    commands:
+      # - npm run-script lint
+      # - npm run test
+      - echo Building pipeline for the environment $ENV
+      - serverless deploy --stage $ENV
+artifacts:
+  files:
+  - target/**/*
+  - serverless.yml
+  - deploy.sh

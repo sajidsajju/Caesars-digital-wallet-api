@@ -1,0 +1,28 @@
+{
+    "name": "commoncode-layer",
+    "version": "1.0.0",
+    "description": "Common code dependency",
+    "author": "capgemini",
+    "license": "ISC",
+    "dependencies": {
+        "commonconstants": "file:constants",
+        "dcp-axios": "file:client/axios",
+        "dcp-client": "file:client/client",
+        "dcp-config": "file:config",
+        "dcp-errors": "file:errors",
+        "dcp-express": "file:express/express",
+        "dcp-kafka": "file:messaging/kafka",
+        "dcp-lambda": "file:lambda",
+        "dcp-loader": "file:express/loader",
+        "dcp-logger": "file:logger",
+        "dcp-messaging": "file:messaging/messaging",
+        "dcp-model": "file:model",
+        "dcp-mongoose": "file:db/mongoose",
+        "dcp-repository": "file:db/repository",
+        "dcp-responses": "file:responses",
+        "dcp-routes": "file:express/routes",
+        "dcp-test": "file:test",
+        "dcp-validator": "file:validator",
+        "dcp-ruleengine": "file:ruleengine"
+    }
+}

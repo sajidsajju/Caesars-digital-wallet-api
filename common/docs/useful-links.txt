@@ -1,0 +1,22 @@
+
+Validations:
+	Hapi Joi Validations - https://joi.dev/api/?v=17.4.0
+
+Logging:
+	Winston : https://www.npmjs.com/package/winston
+	Note: To enable logging and change logging level from info to other levels in project we need to configure it in a application.yml file.
+
+Error Response:	
+	In this project we can customize a exception codes with buildExceptionResponse method in response.js file this is the method where we can 
+	customize error responses.
+	e.g if there is a 'ApplicationException' so we can set the statusCode, statusReason and message etc.
+
+
+
+
+
+
+
+
+
+

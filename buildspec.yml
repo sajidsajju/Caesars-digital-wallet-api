@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - npm install common/commoncode/client/axios
+      - npm install common/commoncode/client/client
+      - npm install common/commoncode/config
+      - npm install common/commoncode/constants
+      - npm install common/commoncode/db/mongoose
+      - npm install common/commoncode/db/repository
+      - npm install common/commoncode/errors
+      - npm install common/commoncode/express/express
+      - npm install common/commoncode/express/loader
+      - npm install common/commoncode/express/routes
+      - npm install common/commoncode/lambda
+      - npm install common/commoncode/logger
+      - npm install common/commoncode/messaging/kafka
+      - npm install common/commoncode/messaging/messaging
+      - npm install common/commoncode/model
+      - npm install common/commoncode/responses
+      - npm install common/commoncode/validator
+
+

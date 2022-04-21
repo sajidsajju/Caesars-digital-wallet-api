@@ -1,0 +1,10 @@
+{
+    "name": "common",
+    "version": "1.0.0",
+    "description": "Common layers for DCP Node JS services",
+    "author": "capgemini",
+    "license": "ISC",
+    "devDependencies": {
+        "serverless-stage-manager": "^1.0.5"
+    }
+}

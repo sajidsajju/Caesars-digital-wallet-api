@@ -1,0 +1,201 @@
+service: dcp-customer
+
+plugins:
+  - serverless-stage-manager
+  - serverless-latest-layer-version
+  - serverless-pseudo-parameters
+  - serverless-plugin-warmup
+
+custom:
+  stages:
+    - dev
+    - qa
+    - prod
+  commoncode: arn:aws:lambda:us-east-1:209399450717:layer:dev-dcp-common-code-layer:latest
+  commonlib: arn:aws:lambda:us-east-1:209399450717:layer:dev-dcp-common-lib-layer:latest
+  headers: 
+    - "Origin"
+    - "Content-Type"
+    - "Accept"
+    - "X-TENANT"
+    - "x-tenant"
+    - X-Amz-Date
+    - Authorization
+    - X-Api-Key
+    - X-Amz-Security-Token
+    - X-Amz-User-Agent
+  origins: '*'
+  warmup:
+    enabled: true # Whether to warm up functions by default or not 
+    folderName: '_warmup' # Name of the folder created for the generated warmup  
+    cleanFolder: false
+    memorySize: 256
+    name: 'dcp-customer-warmup-lambda'
+    # role: myCustRole0
+    tags:
+      application: DCP
+      Owner: sameer.saurabh 
+    vpc: false
+    events:
+      - schedule: 'cron(0/5 8-22 ? * MON-FRI *)' # Run WarmUp every 5 minutes Mon-Fri between 8:00am and 10:55pm (UTC) 
+    package:
+      individually: true
+      exclude: # exclude additional binaries that are included at the serverless package level 
+        - common/**
+        - .gitignore
+        - .gitmodules
+        - git-common-version-update.bat
+        - node_modules/**
+    timeout: 20
+    prewarm: true # Run WarmUp immediately after a deploymentlambda 
+    clientContext: false
+    # payload: 
+    #   source: my-custom-source
+    #   other: 20
+    payloadRaw: true # Won't JSON.stringify() the payload, may be necessary for Go/AppSync deployments 
+    concurrency: 5 # Warm up 5 concurrent instances 
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage,'dev'}
+  region: us-east-1
+  versionFunctions: false
+  timeout: 20 # optional, in seconds, default is 6
+  memorySize: 512
+  environment:
+    NODE_PATH: "./:/opt/node_modules"
+    region: ${self:provider.region}
+    STAGE: ${self:provider.stage}
+    version: 1.0.0.0
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action: ['ssm:*']
+      Resource: '*'
+    - Effect: 'Allow'
+      Action:
+        - 'lambda:InvokeFunction'
+      Resource: '*'
+  vpc:
+    securityGroupIds:
+      - sg-0ee5d20c66d86359e
+    subnetIds:
+      - subnet-02258b52dabf06568
+
+functions:
+  createCustomer:
+    handler: lambda/createCustomerHandler.handle
+    events:
+      - http:
+          path: /api/v1/customers
+          method: POST
+          cors: 
+             origins: ${self:custom.origins}
+             headers: ${self:custom.headers}
+    layers:
+      - ${self:custom.commonlib}
+      - ${self:custom.commoncode}
+    environment:
+      Authorize: Admin
+  
+  customAuth:
+    handler: lambda/customAuthHandler.customAuth
+    layers:
+      - ${self:custom.commonlib}
+      - ${self:custom.commoncode}
+
+  findAllCustomers:
+    handler: lambda/findAllCustomersHandler.handle
+    events:
+     - http:
+         path: /api/v1/customers/all
+         method: get
+         cors: 
+             origins: ${self:custom.origins}
+             headers: ${self:custom.headers}
+    layers:
+      - ${self:custom.commonlib}
+      - ${self:custom.commoncode}
+    environment:
+      Authorize: Admin
+
+  findCustomerByIdentifiers:
+    handler: lambda/findCustomerByIdentifiersHandler.handle
+    events:
+     - http:
+         path: /api/v1/customers
+         method: get
+         cors: 
+             origins: ${self:custom.origins}
+             headers: ${self:custom.headers}
+    layers:
+      - ${self:custom.commonlib}
+      - ${self:custom.commoncode}
+    environment:
+      Authorize: Admin
+  
+  getCustomersByQuery:
+    handler: lambda/getCustomersByQueryHandler.handle
+    events:
+     - http:
+         path: /api/v1/customers/query
+         method: post
+         cors: 
+             origins: ${self:custom.origins}
+             headers: ${self:custom.headers}
+    layers:
+      - ${self:custom.commonlib}
+      - ${self:custom.commoncode}
+    environment:
+      Authorize: Admin
+
+  deleteCustomer:
+    handler: lambda/deleteCustomerHandler.handle
+    events:
+     - http:
+         path: /api/v1/customers
+         method: delete
+         cors: 
+             origins: ${self:custom.origins}
+             headers: ${self:custom.headers}
+    layers:
+      - ${self:custom.commonlib}
+      - ${self:custom.commoncode}
+    environment:
+      Authorize: Admin
+
+  updateCustomer:
+    handler: lambda/updateCustomerHandler.handle
+    events:
+     - http:
+         path: /api/v1/customers/{customerId}
+         method: put
+         cors: 
+             origins: ${self:custom.origins}
+             headers: ${self:custom.headers}
+    layers:
+      - ${self:custom.commonlib}
+      - ${self:custom.commoncode}
+    environment:
+      Authorize: Admin
+
+resources:
+  Resources:
+    GatewayResponseDefault401:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+        StatusCode: '401'
+        
+package: # Optional deployment packaging configuration
+  exclude: # Specify the directories and files which should be excluded in the deployment package
+    - common/**
+    - .gitignore
+    - .gitmodules
+    - git-common-version-update.bat
+    - node_modules/**

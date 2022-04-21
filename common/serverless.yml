@@ -1,0 +1,41 @@
+service: dcp-common-layers
+plugins:
+  - serverless-stage-manager
+custom:
+  stages:
+    - dev
+    - qa
+    - prod
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  stage: ${opt:stage,'dev'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action: 'lambda:PublishLayerVersion'
+      Resource: 
+        - '*'
+
+layers:
+  commonlib:
+    path: commonlib
+    name: ${self:provider.stage}-dcp-common-lib-layer # optional
+    description: Description of what the lambda layer does # optional
+    compatibleRuntimes: # optional
+      - nodejs10.x
+    licenseInfo: GPLv3 # optional
+    allowedAccounts:
+      - '*' # all accounts
+    retain: false # optional
+  commoncode:
+    path: commoncode
+    name: ${self:provider.stage}-dcp-common-code-layer # optional
+    description: Description of what the lambda layer does # optional
+    compatibleRuntimes: # optional
+      - nodejs10.x
+    licenseInfo: GPLv3 # optional
+    allowedAccounts:
+      - '*' # all accounts
+    retain: false # optional

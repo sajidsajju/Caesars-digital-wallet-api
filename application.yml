@@ -1,0 +1,31 @@
+#Service configuration
+dcp:
+  repository:
+    mongodb:
+      autoconfig: true
+      host: localhost
+      port: 27017
+      database: caesars_customers
+  controller:
+    swagger:
+      autoconfig: true
+    requestlogger:
+      autoconfig: true
+      mode: dev
+  service:
+    security:
+      authorization: false
+
+#Logging configuration
+logging:
+  enabled: true
+  level: info
+  pattern:
+    level: "[%X{correlationId}] %5p"
+
+swagger:
+  api:
+    title: Customers
+
+server:
+  port: 8181

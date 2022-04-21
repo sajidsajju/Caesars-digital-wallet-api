@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: raas-customer-deployment
+  labels:
+    app: raas-customer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: raas-customer
+  template:
+    metadata:
+      labels:
+        app: raas-customer
+    spec:
+      containers:
+      - name: raas-customer
+        image: 741762191802.dkr.ecr.us-west-2.amazonaws.com/czr-dev-usw2-raas-customernodejs:1.0
+        ports:
+        - containerPort: 8082
+        imagePullPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: raas-customer-service
+  annotations:
+    "service.beta.kubernetes.io/aws-load-balancer-internal": "0.0.0.0/0"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 9090
+    protocol: TCP
+    targetPort: 8082 
+  selector:
+    app: raas-customer
